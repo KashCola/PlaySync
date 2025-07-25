@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Playlist Converter",
-  description: "Convert playlists between Spotify and Apple Music",
+  description: "Convert playlists between Spotify and YouTube Music",
 };
 
 export default function RootLayout({

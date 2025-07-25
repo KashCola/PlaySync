@@ -52,7 +52,7 @@ export function PlaylistConverter({ spotifyAccessToken, youtubeApiKey, youtubeAc
     try {
       const extracted = extractPlaylistId(playlistUrl);
       if (!extracted) {
-        throw new Error('Invalid playlist URL. Please provide a valid Spotify or Apple Music playlist URL.');
+        throw new Error('Invalid playlist URL. Please provide a valid Spotify or YouTube Music playlist URL.');
       }
 
       let loadedPlaylist: Playlist;
@@ -281,7 +281,7 @@ export function PlaylistConverter({ spotifyAccessToken, youtubeApiKey, youtubeAc
           <Music className="h-8 w-8 text-blue-600" />
           <span>PlaySync</span>
         </div>
-        <p className="text-gray-600">Convert your playlists between Spotify and Apple Music</p>
+        <p className="text-gray-600">Convert your playlists between Spotify and YouTube Music</p>
       </div>
 
       <Card>
