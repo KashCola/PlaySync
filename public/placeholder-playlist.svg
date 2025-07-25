@@ -1,0 +1,9 @@
+<!-- Placeholder for playlist cover image -->
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#E5E7EB"/>
+  <path d="M200 120C234.183 120 262 147.817 262 182C262 216.183 234.183 244 200 244C165.817 244 138 216.183 138 182C138 147.817 165.817 120 200 120Z" fill="#9CA3AF"/>
+  <path d="M200 136C225.405 136 246 156.595 246 182C246 207.405 225.405 228 200 228C174.595 228 154 207.405 154 182C154 156.595 174.595 136 200 136Z" fill="#6B7280"/>
+  <circle cx="200" cy="182" r="16" fill="#E5E7EB"/>
+  <rect x="150" y="264" width="100" height="8" rx="4" fill="#9CA3AF"/>
+  <rect x="170" y="280" width="60" height="6" rx="3" fill="#D1D5DB"/>
+</svg>

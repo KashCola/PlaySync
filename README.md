@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PlaySync
+
+A modern web application that allows users to convert playlists between Spotify and YouTube Music seamlessly.
+
+## Features
+
+- **Cross-Platform Conversion**: Convert playlists from Spotify to YouTube Music and vice versa
+- **Smart Track Matching**: Advanced algorithm to find matching tracks across platforms
+- **Modern UI**: Clean, responsive design built with React and Tailwind CSS
+- **Real-time Progress**: Live updates during the conversion process
+- **Detailed Results**: Shows conversion success rate and failed tracks
+- **OAuth Authentication**: Secure authentication with both Spotify and YouTube Music
+- **Automatic Playlist Creation**: Creates playlists automatically when possible
+- **Smart Fallback**: Provides manual instructions when API limits are reached
+
+## Technologies
+
+- **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS
+- **APIs**: Spotify Web API, YouTube Data API v3
+- **UI Components**: Custom components with Radix UI primitives
+- **Authentication**: OAuth 2.0 for both Spotify and YouTube Music
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ and npm
+- Spotify Developer Account
+- Apple Developer Account (for Apple Music API)
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd playlistconverter
+   npm install
+   ```
+
+2. **Set up Spotify API**
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create a new app
+   - Add `http://localhost:3000/api/auth/spotify/callback` to redirect URIs
+   - Copy your Client ID and Client Secret
+
+3. **Set up Apple Music API**
+   - Go to [Apple Developer Portal](https://developer.apple.com/)
+   - Create a MusicKit identifier and private key
+   - Generate a developer token
+
+4. **Configure environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Edit `.env.local` with your API credentials:
+   ```
+   SPOTIFY_CLIENT_ID=your_spotify_client_id
+   SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+   SPOTIFY_REDIRECT_URI=http://localhost:3000/api/auth/spotify/callback
+   NEXT_PUBLIC_APPLE_MUSIC_DEVELOPER_TOKEN=your_apple_music_developer_token
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_random_secret_string
+   ```
+
+5. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+6. **Open [http://localhost:3000](http://localhost:3000)** in your browser
+
+## How It Works
+
+1. **Authentication**: Users connect their Spotify and/or Apple Music accounts
+2. **Playlist Input**: Paste a playlist URL from either platform
+3. **Track Matching**: The app searches for matching tracks on the target platform
+4. **Playlist Creation**: Creates a new playlist with matched tracks
+5. **Results**: Shows conversion success rate and any failed matches
+
+## API Endpoints
+
+- `/api/auth/spotify` - Initiates Spotify OAuth flow
+- `/api/auth/spotify/callback` - Handles Spotify OAuth callback
+- `/api/auth/spotify/token` - Returns current Spotify access token
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js app router pages
+│   ├── api/               # API routes
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   └── playlist-converter.tsx # Main converter component
+├── lib/                   # Utility functions and API clients
+│   ├── spotify.ts        # Spotify API client
+│   ├── apple-music.ts    # Apple Music API client
+│   └── utils.ts          # Helper functions
+└── types/                # TypeScript type definitions
+    └── index.ts          # Shared types
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-To learn more about Next.js, take a look at the following resources:
+## Disclaimer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This application is for educational and personal use. Make sure to comply with Spotify and Apple Music's terms of service when using their APIs.
