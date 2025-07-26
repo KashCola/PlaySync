@@ -1,4 +1,4 @@
-# ![public/logos/playsync-wordmark.svg](https://github.com/KashCola/PlaySync/blob/main/public/logos/playsync-wordmark.svg)
+# ![public/logos/final.png](https://github.com/KashCola/PlaySync/blob/main/public/logos/final.png)
 A modern web application that allows users to convert playlists between Spotify and YouTube Music seamlessly.
 
 ## Features
