@@ -9,7 +9,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { Music, ArrowRight, CheckCircle, XCircle, Download } from 'lucide-react';
+import { PlaySyncLogo } from '@/components/ui/logo';
+import { Music, ArrowRight, CheckCircle, XCircle, Download, Sparkles, ExternalLink } from 'lucide-react';
 
 interface PlaylistConverterProps {
   spotifyAccessToken?: string;
@@ -275,113 +276,149 @@ export function PlaylistConverter({ spotifyAccessToken, youtubeApiKey, youtubeAc
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <div className="text-center space-y-4">
-        <div className="flex items-center justify-center space-x-2 text-3xl font-bold text-gray-900">
-          <Music className="h-8 w-8 text-blue-600" />
-          <span>PlaySync</span>
-        </div>
-        <p className="text-gray-600">Convert your playlists between Spotify and YouTube Music</p>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Step 1: Load Your Playlist</CardTitle>
-          <CardDescription>
-            Paste a Spotify or YouTube Music playlist URL to get started
+    <div className="max-w-4xl mx-auto space-y-8">
+      <Card className="border-0 animate-bounce-in" style={{backgroundColor: '#faf8f5', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02)'}}>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl gradient-text flex items-center justify-center space-x-3 animate-fade-in">
+            <PlaySyncLogo size="md" className="animate-float" />
+            <span>Convert Your Playlist</span>
+          </CardTitle>
+          <CardDescription className="text-base max-w-2xl mx-auto animate-fade-in animate-stagger-1">
+            Paste any Spotify or YouTube Music playlist URL below to get started
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex space-x-2">
+        <CardContent className="space-y-6">
+          <div className="flex space-x-3 animate-slide-up animate-stagger-2">
             <input
               type="url"
               value={playlistUrl}
               onChange={(e) => setPlaylistUrl(e.target.value)}
               placeholder="https://open.spotify.com/playlist/... or https://www.youtube.com/playlist?list=..."
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 focus:scale-105"
+              style={{backgroundColor: '#ffffff', boxShadow: '0 1px 4px rgba(0,0,0,0.03)'}}
             />
             <Button 
               onClick={loadPlaylist} 
               disabled={isLoading || !playlistUrl.trim()}
+              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 transition-all duration-200 font-medium transform hover:scale-105 active:scale-95"
+              style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}
             >
               {isLoading ? <LoadingSpinner size="sm" /> : 'Load Playlist'}
             </Button>
           </div>
           
           {isLoading && (
-            <div className="space-y-2">
-              <Progress value={conversionProgress} className="w-full" />
-              <p className="text-sm text-gray-600">{currentStep}</p>
+            <div className="space-y-3 p-4 rounded-xl animate-bounce-in" style={{background: 'linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%)', border: '1px solid #d8b4fe'}}>
+              <Progress value={conversionProgress} className="w-full h-2 animate-pulse-slow" />
+              <div className="flex items-center space-x-2 text-purple-700">
+                <Sparkles className="h-4 w-4 animate-spin" />
+                <p className="text-sm font-medium animate-pulse-slow">{currentStep}</p>
+              </div>
             </div>
           )}
         </CardContent>
       </Card>
 
       {playlist && (
-        <Card>
+        <Card className="border-0" style={{backgroundColor: '#faf8f5', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02)'}}>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <img 
-                src={playlist.cover_image || '/placeholder-playlist.svg'} 
-                alt={playlist.name}
-                className="w-12 h-12 rounded object-cover"
-              />
-              <div>
-                <h3 className="text-xl font-semibold">{playlist.name}</h3>
-                <p className="text-sm text-gray-600">
-                  {playlist.total_tracks} tracks • {playlist.platform === 'spotify' ? 'Spotify' : 'YouTube Music'}
-                </p>
+            <CardTitle className="flex items-center space-x-4">
+              <div className="relative">
+                <img 
+                  src={playlist.cover_image || '/placeholder-playlist.svg'} 
+                  alt={playlist.name}
+                  className="w-16 h-16 rounded-xl object-cover"
+                  style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}
+                />
+                <div className="absolute -bottom-2 -right-2">
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                    playlist.platform === 'spotify' 
+                      ? 'bg-gradient-to-r from-green-500 to-green-600' 
+                      : 'bg-gradient-to-r from-red-500 to-red-600'
+                  }`} style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}>
+                    <Music className="h-3 w-3 text-white" />
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold gradient-text">{playlist.name}</h3>
+                <div className="flex items-center space-x-2 text-gray-600 mt-1">
+                  <span>{playlist.total_tracks} tracks</span>
+                  <span>•</span>
+                  <span className="capitalize font-medium">
+                    {playlist.platform === 'spotify' ? 'Spotify' : 'YouTube Music'}
+                  </span>
+                </div>
               </div>
             </CardTitle>
             {playlist.description && (
-              <CardDescription>{playlist.description}</CardDescription>
+              <CardDescription className="text-base mt-4 p-4 bg-gray-50 rounded-xl">
+                {playlist.description}
+              </CardDescription>
             )}
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="text-sm text-gray-600">
-              <p className="font-medium mb-2">Sample tracks:</p>
-              <ul className="space-y-1">
+          <CardContent className="space-y-6">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-100">
+              <p className="font-semibold text-purple-900 mb-3 flex items-center space-x-2">
+                <Sparkles className="h-4 w-4" />
+                <span>Sample tracks from your playlist:</span>
+              </p>
+              <ul className="space-y-2">
                 {playlist.tracks.slice(0, 3).map((track, index) => (
-                  <li key={index} className="flex items-center space-x-2">
-                    <span>{track.name}</span>
-                    <span className="text-gray-400">•</span>
-                    <span>{track.artists.join(', ')}</span>
+                  <li key={index} className="flex items-center space-x-3 text-sm bg-white/60 p-3 rounded-lg">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-400 to-pink-400 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                      {index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <span className="font-medium text-gray-900">{track.name}</span>
+                      <div className="text-gray-600">by {track.artists.join(', ')}</div>
+                    </div>
                   </li>
                 ))}
                 {playlist.tracks.length > 3 && (
-                  <li className="text-gray-400">... and {playlist.tracks.length - 3} more tracks</li>
+                  <li className="text-center text-gray-500 text-sm py-2 font-medium">
+                    ... and {playlist.tracks.length - 3} more tracks
+                  </li>
                 )}
               </ul>
             </div>
             
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               {playlist.platform !== 'spotify' && (
                 <Button 
                   onClick={() => convertPlaylist('spotify')}
                   disabled={isLoading}
-                  className="flex items-center space-x-2"
+                  className="flex-1 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0 transition-all duration-200 font-medium"
+                  style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}
                 >
-                  <span>Convert to Spotify</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>Convert to Spotify</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
                 </Button>
               )}
               {playlist.platform !== 'youtube' && (
                 <Button 
                   onClick={() => convertPlaylist('youtube')}
                   disabled={isLoading}
-                  variant="outline"
-                  className="flex items-center space-x-2"
+                  className="flex-1 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white border-0 transition-all duration-200 font-medium"
+                  style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}
                 >
-                  <span>Convert to YouTube Music</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>Convert to YouTube Music</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </div>
                 </Button>
               )}
             </div>
 
             {isLoading && (
-              <div className="space-y-2">
-                <Progress value={conversionProgress} className="w-full" />
-                <p className="text-sm text-gray-600">{currentStep}</p>
+              <div className="space-y-3 p-4 rounded-xl bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100">
+                <Progress value={conversionProgress} className="w-full h-2" />
+                <div className="flex items-center space-x-2 text-orange-700">
+                  <Sparkles className="h-4 w-4 animate-pulse" />
+                  <p className="text-sm font-medium">{currentStep}</p>
+                </div>
               </div>
             )}
           </CardContent>
@@ -389,60 +426,95 @@ export function PlaylistConverter({ spotifyAccessToken, youtubeApiKey, youtubeAc
       )}
 
       {conversionResult && (
-        <Card>
+        <Card className="border-0" style={{backgroundColor: '#faf8f5', boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02)'}}>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              {conversionResult.success ? (
-                <CheckCircle className="h-6 w-6 text-green-600" />
-              ) : (
-                <XCircle className="h-6 w-6 text-red-600" />
-              )}
-              <span>Conversion {conversionResult.success ? 'Completed' : 'Failed'}</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="font-medium">Matched tracks:</span>
-                <span className="ml-2 text-green-600">{conversionResult.matched_tracks}</span>
+            <CardTitle className="flex items-center space-x-3">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                conversionResult.success 
+                  ? 'bg-gradient-to-r from-green-500 to-green-600' 
+                  : 'bg-gradient-to-r from-red-500 to-red-600'
+              }`} style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}>
+                {conversionResult.success ? (
+                  <CheckCircle className="h-6 w-6 text-white" />
+                ) : (
+                  <XCircle className="h-6 w-6 text-white" />
+                )}
               </div>
               <div>
-                <span className="font-medium">Total tracks:</span>
-                <span className="ml-2">{conversionResult.total_tracks}</span>
+                <h3 className="text-2xl font-bold gradient-text">
+                  Conversion {conversionResult.success ? 'Completed!' : 'Failed'}
+                </h3>
+                <p className="text-gray-600 mt-1">
+                  {conversionResult.success ? '🎉 Your playlist is ready!' : '⚠️ Something went wrong'}
+                </p>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                <div className="flex items-center space-x-2 mb-2">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="font-semibold text-green-900">Matched Tracks</span>
+                </div>
+                <span className="text-2xl font-bold text-green-600">{conversionResult.matched_tracks}</span>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Music className="h-4 w-4 text-blue-600" />
+                  <span className="font-semibold text-blue-900">Total Tracks</span>
+                </div>
+                <span className="text-2xl font-bold text-blue-600">{conversionResult.total_tracks}</span>
               </div>
             </div>
             
-            <p className="text-gray-600">{conversionResult.message}</p>
+            <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+              <p className="text-purple-800 font-medium">{conversionResult.message}</p>
+            </div>
             
             {conversionResult.instructions && (
-              <div className="bg-blue-50 p-4 rounded-md">
-                <h4 className="font-medium text-blue-800 mb-2">Manual Setup Instructions:</h4>
-                <pre className="text-sm text-blue-700 whitespace-pre-wrap">{conversionResult.instructions}</pre>
+              <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                <div className="flex items-start space-x-2 mb-3">
+                  <Sparkles className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <h4 className="font-semibold text-blue-900">Manual Setup Instructions</h4>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-blue-200 max-h-64 overflow-y-auto">
+                  <pre className="text-sm text-blue-800 whitespace-pre-wrap font-mono">{conversionResult.instructions}</pre>
+                </div>
               </div>
             )}
             
             {conversionResult.playlist_url && (
-              <div className="flex items-center space-x-2">
+              <div className="flex justify-center">
                 <Button 
                   onClick={() => window.open(conversionResult.playlist_url, '_blank')}
-                  className="flex items-center space-x-2"
+                  className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 transition-all duration-200 font-medium px-8 py-3"
+                  style={{boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)'}}
                 >
-                  <Download className="h-4 w-4" />
-                  <span>Open Converted Playlist</span>
+                  <div className="flex items-center space-x-2">
+                    <ExternalLink className="h-4 w-4" />
+                    <span>Open Converted Playlist</span>
+                  </div>
                 </Button>
               </div>
             )}
             
             {conversionResult.failed_tracks.length > 0 && (
-              <div className="space-y-2">
-                <p className="font-medium text-gray-700">Failed to convert:</p>
-                <ul className="text-sm text-gray-600 space-y-1 max-h-32 overflow-y-auto">
-                  {conversionResult.failed_tracks.map((track, index) => (
-                    <li key={index}>
-                      {track.name} - {track.artists.join(', ')}
-                    </li>
-                  ))}
-                </ul>
+              <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                <div className="flex items-start space-x-2 mb-3">
+                  <XCircle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <h4 className="font-semibold text-orange-900">Tracks That Couldn't Be Converted</h4>
+                </div>
+                <div className="bg-white p-4 rounded-lg border border-orange-200 max-h-40 overflow-y-auto">
+                  <ul className="text-sm text-orange-800 space-y-2">
+                    {conversionResult.failed_tracks.map((track, index) => (
+                      <li key={index} className="flex items-center space-x-2">
+                        <span className="w-2 h-2 bg-orange-400 rounded-full flex-shrink-0"></span>
+                        <span><strong>{track.name}</strong> by {track.artists.join(', ')}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
           </CardContent>
